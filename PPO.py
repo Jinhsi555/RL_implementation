@@ -67,7 +67,7 @@ class PPO:
             advantage = gamma * lmbda * advantage + delta
             advantage_list.append(advantage)
         advantage_list.reverse()
-        return torch.tensor(advantage_list, dtype=torch.float)
+        return torch.tensor(np.array(advantage_list), dtype=torch.float)
 
     def update(self, transition_dict): # transition_dict 中存储了 batch, dim 维度的轨迹张量
         states = torch.tensor(np.array(transition_dict['states']), dtype=torch.float).to(self.device)
@@ -123,12 +123,12 @@ episodes_list = list(range(len(return_list)))
 plt.plot(episodes_list, return_list)
 plt.xlabel('Episodes')
 plt.ylabel('Returns')
-plt.title('Actor-Critic on {}'.format(env_name))
+plt.title('PPO on {}'.format(env_name))
 plt.show()
 
 mv_return = rl_utils.moving_average(return_list, 9)
 plt.plot(episodes_list, mv_return)
 plt.xlabel('Episodes')
 plt.ylabel('Returns')
-plt.title('Actor-Critic on {}'.format(env_name))
+plt.title('PPO on {}'.format(env_name))
 plt.show()
